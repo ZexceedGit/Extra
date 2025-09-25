@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <title>Document</title>
+    <style>
+        * {
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+            font-family: "Poppins";
+        }
+        body {
+            height:100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .calculator{
+  background-color: #1c1c1c; 
+            border-radius:10px;
+            padding:10px;
+        }
+        .calculator .input {
+            width:100%;
+          background-color: #1f1f1f;
+          border:none;
+            padding:20px;
+            font-size:15px;
+            border-radius:5px;
+            text-align:end;
+            color:white;
+        }
+        .calculator .buttonName {
+            padding:10px;
+        }
+        .row {
+            display:flex;
+            padding:5px;
+            gap:10px;
+        }
+        .calculator button {
+            padding:10px;
+            width:70px;
+            height:60px;
+            font-size:17px;
+            font-weight:bold;
+  box-shadow: 3px 3px 6px #000000, -3px -3px 6px #2a2a2a;
+            border:none;  
+             background-color: #1f1f1f;
+            transition:transform .1s ease;
+            border-radius:5px;  
+            color:white;
+        }
+        .calculator button:hover {
+            transform:scale(1.1);
+            cursor:pointer;
+        }
+         .equal {
+            min-width: 150px;
+            background-color: orange;
+        }
+
+          .modal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0,0,0,0.4);
+      justify-content: center;
+      align-items: center;
+    }
+
+    .modal-content {
+      background: #fff;
+      border-radius: 5px;
+      width: 450px;
+      padding: 25px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+      animation: fadeIn 0.3s ease;
+    }
+
+    .modal-header {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .payment-methods {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 20px;
+      gap:10px;
+      width: 100%;
+    }
+
+    .payment-methods img {
+      width: 100px;
+      height: 35px;
+      border: 2px solid #ccc;
+      border-radius: 5px;
+      cursor: pointer;
+      padding:5px;
+      object-fit: contain;
+    }
+
+    .payment-methods img.active {
+      border-color: #325dff;
+    }
+
+    .radio-group {
+      display: flex;
+      justify-content: start;
+      margin-bottom: 15px;
+      gap: 20px;
+    }
+
+ .form-group {
+  position: relative;
+  margin-bottom: 20px;
+  flex: 1;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 15px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 14px;
+  outline: none;
+  background: #fff;
+}
+
+.form-group label {
+  position: absolute;
+  top: 60%;
+  left: 15px;
+  transform: translateY(-30%);
+  font-size: 14px;
+  color: #999;
+  pointer-events: none;
+  transition: all 0.2s ease;
+  background: #fff;
+  padding: 0 4px;
+}
+
+.form-group input:focus + label,
+.form-group input:not(:placeholder-shown) + label {
+  top: -8px;
+  left: 10px;
+  font-size: 12px;
+  color: #325dff;
+}
+
+
+    .form-group input {
+      width: 100%;
+      padding: 15px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 14px;
+    }
+
+    .form-row {
+      display: flex;
+      gap: 15px;
+    }
+    .form-row input {
+ width: 100%;
+      padding: 15px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 14px;    }
+
+    .btn {
+      width: 100%;
+      padding: 12px;
+      background: #325dff;
+      border: none;
+      border-radius: 6px;
+      color: white;
+      font-size: 12px;
+      cursor: pointer;
+      margin-top: 10px;
+      font-weight:bold;
+    }
+
+    .btn:hover {
+      background: #244ad8;
+    }
+
+    .close {
+      float: right;
+      font-size: 24px;
+      cursor: pointer;
+      color: #333;
+    }
+
+    @keyframes fadeIn {
+      from {opacity: 0; transform: scale(0.9);}
+      to {opacity: 1; transform: scale(1);}
+    }
+    .loading-modal {
+  display: none; 
+  position: fixed;
+  z-index: 2000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.5);
+  justify-content: center;
+  align-items: center;
+}
+
+.loading-content {
+  background: #fff;
+  padding: 25px 40px;
+  border-radius: 10px;
+  text-align: center;
+  box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+  animation: fadeIn 0.3s ease;
+}
+
+.loading-content i {
+  color: #325dff;
+  margin-bottom: 15px;
+}
+.emoji-modal {
+  display: none;
+  position: fixed;
+  z-index: 3000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.6);
+  justify-content: center;
+  align-items: center;
+}
+
+.emoji-content {
+  background: #fff;
+  padding: 30px 50px;
+  border-radius: 12px;
+  font-size: 4rem;
+  text-align: center;
+  box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+  animation: popIn 0.3s ease;
+}
+
+@keyframes popIn {
+  from {opacity: 0; transform: scale(0.8);}
+  to {opacity: 1; transform: scale(1);}
+}   
+
+    </style>
+</head>
+<body>
+    <div class="calculator">
+        <input type="text" class="input">
+        <div class="buttonName">
+            <div class="row">
+               <button>AC</button>
+               <button>DEL</button>
+               <button onclick="append('%')">%</button>
+               <button onclick="append('/')">/</button>
+            </div>
+            <div class="row">
+               <button onclick="append('7')">7</button>
+               <button onclick="append('8')">8</button>
+               <button onclick="append('9')">9</button>
+               <button onclick="append('*')">*</button>
+            </div>
+            <div class="row">
+               <button onclick="append('4')">4</button>
+               <button onclick="append('5')">5</button>
+               <button onclick="append('6')">6</button>
+               <button onclick="append('-')">-</button>
+            </div>
+            <div class="row">
+               <button onclick="append('1')">1</button>
+               <button onclick="append('2')">2</button>
+               <button onclick="append('3')">3</button>
+               <button onclick="append('+')">+</button>
+            </div>
+            <div class="row">
+               <button onclick="append('0')">0</button>
+               <button onclick="append('.')">.</button>
+               <button onclick="showForm()" class="equal">=</button>
+            </div>
+        </div>
+    </div>
+         
+
+    <div id="loadingModal" class="loading-modal">
+  <div class="loading-content">
+    <i class="fas fa-spinner fa-spin fa-3x"></i>
+    <p id="textLoad">Processing Calculation...</p>
+  </div>
+</div>
+
+
+    <div id="paymentModal" class="modal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h2>Payment Method</h2>
+    </div>
+
+    <div class="payment-methods">
+  <img src="gcash.jpg">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/4/41/Visa_Logo.png">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/2/2a/Mastercard-logo.svg">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/b/b5/PayPal.svg">
+    </div>
+
+    <div class="radio-group">
+      <label><input type="radio" name="type" checked> Private</label>
+      <label><input type="radio" name="type"> Business</label>
+    </div>
+
+    <div class="form-group">
+      <input type="text" id="name"  required>
+      <label for="name">Name</label>
+    </div>
+
+    <div class="form-group">
+      <input type="text" id="card" required>
+      <label for="card">Card Number</label>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <input type="text" id="date" required>
+        <label for="date">Date</label>
+      </div>
+      <div class="form-group">
+        <input type="text" id="cvv" required>
+        <label for="cvv">CVV</label>
+      </div>
+    </div>
+
+    <button class="btn" id="pay">Pay 100 Pesos</button>
+  </div>
+</div>
+
+<div id="sadEmojiModal" class="emoji-modal">
+  <div class="emoji-content">
+    😢
+  </div>
+</div>
+
+       
+    <script>
+        let inputfield = document.querySelector(".input");
+        let loadingText = document.getElementById("TextLoad");
+        let payBtn = document.getElementById("pay")
+     function append(placeholder){
+          inputfield.value += placeholder;
+     }
+     function showForm(){
+         document.getElementById("loadingModal").style.display = "flex";
+        setTimeout(() => {
+         document.getElementById("loadingModal").style.display = "none";
+         document.getElementById("paymentModal").style.display = "flex";
+        },3000)
+     }
+     function closeForm() {
+      document.getElementById("paymentModal").style.display = "none";
+    }
+
+    payBtn.addEventListener("click", () => {
+        document.getElementById("sadEmojiModal").style.display = "flex";
+        let music = new Audio();
+        music.src = "walaka.mp3";
+        music.play();
+    })
+    </script>
+</body>
+</html>
